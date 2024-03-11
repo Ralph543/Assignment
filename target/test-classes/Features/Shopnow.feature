@@ -1,8 +1,8 @@
 Feature: Validation of the Checkout page of Shopnow Web application
 
-  Scenario:Validation of Checkout page using Valid Credentials
+  Scenario Outline:Validation of Checkout page using Valid Credentials
   
-    Given User launches Shopnow web application
+    Given User launches Shopnow web application in "<browser>"
     Then User verifies that homepage is displayed
     When User searches for Laptop on the search bar
     And User clicks on the result
@@ -21,3 +21,8 @@ Feature: Validation of the Checkout page of Shopnow Web application
     When User enter hno , address, city, state , pincode and phone number
     And User closes browser
   
+  Examples:
+  
+  |browser|
+  |Chrome|
+  |Firefox|

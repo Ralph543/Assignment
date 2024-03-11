@@ -37,19 +37,16 @@ public class Stepdefinition extends Baseclass{
 	ShoppingPage sp;
 	CheckoutPage ch;
 	AccountPage ap;
-	
-	
+	WebElement passwor ;
+	WebDriverWait wait ;
 
-	
-
-		@Given("User launches Shopnow web application")
-		public void user_launches_Shopnow_web_application() {
+	@Given("User launches Shopnow web application in {string}")
+	public void user_launches_Shopnow_web_application_in(String browser) {
 		
-			launchBrowser();
-			loadUrl("https://shopnowonline.in/");
+		launchBrowser(browser);
 		
-			
-		}
+		loadUrl("https://shopnowonline.in/");
+	}
 
 		@Then("User verifies that homepage is displayed")
 		public void user_verifies_that_homepage_is_displayed() {
@@ -75,7 +72,8 @@ public class Stepdefinition extends Baseclass{
 
 		@When("User clicks on the result")
 		public void user_clicks_on_the_result() {
-		 
+			
+			driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
 			String prodname = hp.getprod().getText();
 			
 			System.out.println(prodname);
@@ -95,7 +93,7 @@ public class Stepdefinition extends Baseclass{
 		public void user_clicks_add_to_cart() {
 		
 			WebElement addToCart = p.getAddToCart();
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		 wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 			wait.until(ExpectedConditions.elementToBeClickable(addToCart));
 			
 			addToCart.click();
@@ -169,7 +167,8 @@ public class Stepdefinition extends Baseclass{
 		public void user_enters_email_and_password_and_waits_for_a_second()  {
 			ap = new AccountPage();
 			ap.getEmail().sendKeys("blaisevp53@gmail.com");
-			ap.getPassWord().sendKeys("SHOPnow53");
+			 passwor = ap.getPassWord();
+			passwor.sendKeys("SHOPnow53");
 			
 			
 			
@@ -183,12 +182,22 @@ public class Stepdefinition extends Baseclass{
 			Thread.sleep(5000);
 			ap.getSignInbtn().click();
 			
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			boolean displayed = driver.findElement(By.xpath("(//p)[2]")).isDisplayed();
 		if(displayed==true)	{
 			driver.navigate().back();
-			Thread.sleep(5000);
+			
+		String pw =	passwor.getAttribute("value");
+		
+		boolean psw = pw.equals("");
+		
+		if(psw==true) {
+			passwor.sendKeys("SHOPnow53");
+			
+		}
+		Thread.sleep(5000);
 			ap.getSignInbtn().click();
+			
 		}
 			
 		}
@@ -198,7 +207,7 @@ public class Stepdefinition extends Baseclass{
 			
 		WebElement accountName =	ch.getAccountName();
 
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 			
 			wait.until(ExpectedConditions.visibilityOf( accountName));
 			

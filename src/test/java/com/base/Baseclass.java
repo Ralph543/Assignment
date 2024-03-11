@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -17,8 +19,9 @@ public class Baseclass {
 	
 	public static WebDriver driver ;
 	
-	public void launchBrowser() {
+	public void launchBrowser(String browser) {
 		
+		if(browser.equalsIgnoreCase("chrome")) {
 		WebDriverManager.chromedriver().setup();
 		
 		 ChromeOptions op = new ChromeOptions();
@@ -27,9 +30,17 @@ public class Baseclass {
 		op.addArguments("--remote-allow-origins=*");
 		
 		driver = new ChromeDriver(op);
-		
-		
 		driver.manage().window().maximize();
+		}
+		else if (browser.equalsIgnoreCase("firefox")) {
+			
+			System.setProperty("webdriver.gecko.driver", "C:\\Users\\augustin\\eclipse-workspace\\Assignment\\Drivers\\geckodriver.exe");
+			
+				
+			   driver = new FirefoxDriver();
+				
+		}
+		
 		
 	
 	}
@@ -40,7 +51,7 @@ public class Baseclass {
 	
 	public void loadUrl(String url) {
 		
-		driver.navigate().to(url);
+		driver.get(url);
 	}
 	
 	
